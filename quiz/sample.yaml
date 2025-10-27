@@ -1,0 +1,24 @@
+name: "Quiz 1"
+questions:
+  - title: "What is the answer?"
+    kind: short
+    choices:
+      - value: "42"
+        correct: true
+  - title: "What is your enemy's father?"
+    kind: truefalse
+    choices:
+      - value: "is a hamster"
+      - value: "smells of elderberries"
+        correct: true
+
+  - title : "What factors?"
+    kind: mcq
+    choices:
+      - value: "global warming"
+      - value: "factoid"
+        correct: true
+      - value: "cats"
+        correct: true
+      - value: "third"
+        correct: true

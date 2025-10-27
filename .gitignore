@@ -1,0 +1,8 @@
+book
+autogen/
+*~
+/_site/
+/_temp/
+_cache
+_dist
+dist-newstyle

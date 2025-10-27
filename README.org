@@ -1,0 +1,109 @@
+#+TITLE: Our Place
+
+#+begin_quote
+A constant work-in-progress...
+#+end_quote
+
+We all love Blackboard, Moodle, Canvas, and other *interactive* Virtual Learning Environments.
+Ostensibly some content is not meant to be interactive,
+and these iVLEs are that little bit too cumbersome to work with efficiently and effectively from the terminal
+(and Emacs/VIM).
+
+Some of my colleagues have even ventured into WebApplication programming with Marx
+(Haskell)
+and CS208
+(Ocaml).
+Those endeavours,
+are really interesting,
+but the content I have in mind is purely static.
+I also do not want to venture,
+nor step on the toes,
+of my colleagues.
+
+To that end I have developed =our-place= a bespoke static site generator to facilitate the generation of websites for hosting *finished* course material that I wish to make public and share.
+
+* How it Works
+
+The idea behind =our-place= that you generate a static website using hakyll with the course content.
+We provide formative feedback through simple quizzes, that support:
+
++ short answers ::
+  very naive and case sensitive;
++ true-false ::
+  boolean questions;
++ mcqs ::
+  threshold boolean questions
+
+The quizzes are described in YAML and then converted into HTML using =our-quiz= a simple Haskell script.
+Running of quizzes is provided by =quizlib=,
+a simple javascript library,
+that is relatively small.
+(You should check our =mdbook-quiz= for something more fully featured.)
+
+The site generator is designed around:
+
++ Hakyll :: Because it seems reasonable for Haskell based projects;
++ nix :: because it makes things reproducible;
++ pandoc :: because...
++ quizlib :: because it was the most reasonably small javascript library for running quizzes...
++ haskell :: because...
++ =w3pro.css= :: as it appears to be a nice light-ish weight way to organise web page structure;
+= =simple.css= :: as it is simple...
+
+* TODO List
+
++ [ ] support configuration through YAML
++ [ ] support /optional/ deployment to `docs/` for easy of distribution through github
++ [ ] integrate =our-quiz= directly within =our-place=
++ [ ] support ALL the pandoc filters
++ [ ] support ALL the pandoc options;
++ [ ] improve the CSS;
++ [ ] better HTML5 support in the output;
++ [ ] validate the quiz descriptions
+* Related Works
+
+Although I could use tooling like MyST (aka Jupyter Books) or mdbook,
+=our-place= is an exercise in Haskell oriented tooling.
+I would love to do this in Idris,
+alas that would require much more development in making the libraries go...
+
+* Design Rationale
+
+The design rationale for =our-place= is simple:
+
++ Keep It Simple ::
+  Content is backed in git written in a markdown language that *pandoc* understands;
+
++ Keep It (Reasonably) Static ::
+  Only rely on Javascript where absolutely necessary,
+  and even then ensure the Javascript used is minimal.
+
+* Directory Listings
+
+The Hakyll project expects the following:
+
++ =bib | csl | css | js | images = ::
+  Various assests...
++ =content= ::
+  module content (will automatically shift it up a level for the website;)
++ =templates= ::
+  hakyll templates used
++ =quiz= ::
+  yaml descriptions of quizzes
+
+The project will generate a few things.
+
+* Useful Websites and Links
+
+Here are things that I have borrowed from, to make =our-place= a thing.
+
++  https://github.com/chungyc/site-personal/blob/b3f573276c1eebafb4f3421d304c261837f66f90/src/Web/Site/Compilers.hs
++ https://github.com/slotThe/slotThe.github.io/blob/main/src/site.hs
++ https://blog.ysndr.de/posts/internals/2020-03-22-built-with-hakyll-part-2/
++ https://rebeccaskinner.net/posts/2021-01-31-hakyll-syntax-highlighting.html
++ https://github.com/jaspervdj/hakyll/issues/486
++ https://rust-book.cs.brown.edu/
++ https://alpsquid.github.io/quizlib/
+
+
+# -- [ EOF ]

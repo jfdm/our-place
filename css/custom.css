@@ -1,0 +1,47 @@
+nav {
+    background-color: var(--accent-bg);
+}
+
+
+body {
+    grid-template-columns: 1fr min(80rem, 90%) 1fr;
+}
+
+body > #hakyllBookNavbar {
+    z-index: 3;
+}
+
+#quiztarget {
+    width:100%;
+    height: 100%;
+    overflow: auto;
+    resize: both;
+    position: relative;
+    z-index: 2;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+@media (min-width:901px){
+    .w3-sidebar
+    .w3-collapse{
+        display:block!important
+    }
+
+}
+
+@media (max-width:900px){
+    .w3-sidebar
+    .w3-collapse{
+        display:none
+    }
+    .w3-main {
+        margin-left:0!important;
+        margin-right:0!important}
+    .w3-auto{max-width:100%}
+}
