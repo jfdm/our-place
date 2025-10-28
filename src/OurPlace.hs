@@ -2,8 +2,9 @@
 import           Data.Monoid (mappend)
 
 import Hakyll
+import qualified Data.Text                  as T
 import Text.Pandoc.Highlighting (Style, kate, styleToCss)
-import Text.Pandoc (compileTemplate, runPure, runWithDefaultPartials)
+import Text.Pandoc --(compileTemplate, runPure, Pandoc, runWithDefaultPartials)
 import Text.Pandoc.Options
 
 import System.FilePath
@@ -81,7 +82,7 @@ pageCompiler = do
   bibFile <- load "bib/biblio.bib"
   cslFile <- load "csl/acm-sig-proceedings.csl"
   getResourceBody
-    >>= readPandocWith readerOptions
+    >>= readPandocWith' readerOptions
     >>= processPandocBiblio cslFile bibFile
     >>= pure . writePandocWith writerOptions
 
@@ -107,7 +108,13 @@ setReaderWith options =
               Ext_tex_math_double_backslash,
               Ext_tex_math_dollars,
               Ext_latex_macros,
-              Ext_raw_attribute
+              Ext_raw_attribute,
+              Ext_alerts,
+              Ext_auto_identifiers,
+              Ext_autolink_bare_uris,
+              Ext_footnotes,
+              Ext_pipe_tables,
+              Ext_yaml_metadata_block
             ]
     }
 getTocOptionsWith :: WriterOptions -> Compiler WriterOptions
@@ -120,7 +127,8 @@ getTocOptionsWith options = do
       = options
         {
           writerHighlightStyle = Just kate,
-          writerHTMLMathMethod = MathML
+          writerHTMLMathMethod = MathML,
+        writerExtensions = writerExtensions options <> extensionsFromList [ Ext_alerts ]
         }
     getOptions (Just _)
       = options
@@ -128,8 +136,8 @@ getTocOptionsWith options = do
           writerTOCDepth = 2,
           writerTemplate = tocTemplate,
           writerHighlightStyle = Just kate,
-          writerHTMLMathMethod = MathML
-
+        writerHTMLMathMethod = MathML,
+        writerExtensions = writerExtensions options <> extensionsFromList [ Ext_alerts ]
         }
     tocTemplate
       | Right (Right t) <- build templateSource = Just t
@@ -137,5 +145,32 @@ getTocOptionsWith options = do
     build = runPure . runWithDefaultPartials . compileTemplate ""
     templateSource = "<aside><nav class='toc'><strong>Contents</strong>\n$toc$\n</nav>\n</aside>\n$body$"
 
+
+readPandocWith'
+    :: ReaderOptions           -- ^ Parser options
+    -> Item String             -- ^ String to read
+    -> Compiler (Item Pandoc)  -- ^ Resulting document
+readPandocWith' ropt item =
+    case runPure $ traverse (reader ropt (itemFileType item)) (fmap T.pack item) of
+        Left err    -> fail $
+            "Hakyll.Web.Pandoc.readPandocWith: parse failed: " ++ show err
+        Right item' -> return item'
+  where
+    reader ro t = case t of
+        DocBook            -> readDocBook ro
+        Html               -> readHtml ro
+        Jupyter            -> readIpynb ro
+        LaTeX              -> readLaTeX ro
+        LiterateHaskell t' -> reader (addExt ro Ext_literate_haskell) t'
+        Markdown           -> readCommonMark ro
+        MediaWiki          -> readMediaWiki ro
+        OrgMode            -> readOrg ro
+        Rst                -> readRST ro
+        Textile            -> readTextile ro
+        _                  -> error $
+            "Hakyll.Web.readPandocWith: I don't know how to read a file of " ++
+            "the type " ++ show t ++ " for: " ++ show (itemIdentifier item)
+
+    addExt ro e = ro {readerExtensions = enableExtension e $ readerExtensions ro}
 
 -- [ EOF ]

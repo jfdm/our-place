@@ -45,3 +45,131 @@ iframe {
         margin-right:0!important}
     .w3-auto{max-width:100%}
 }
+
+
+/* Taken from https://github.com/wklchris/markdown-css-for-pandoc/ */
+
+:root {
+    /* Alert/Admonition colors */
+    --admonition-color: #d1d9e0;
+    --caution-color: #cf222e;
+    --important-color: #8250df;
+    --note-color: #0959da;
+    --tip-color: #1a7f37;
+    --warning-color: #9a6700;
+}
+
+/* Alert (Admonition) */
+
+
+div.caution,
+div.important,
+div.note,
+div.tip,
+div.warning {
+    color: inherit;
+    border-left: 0.25rem solid var(--admonition-color);
+    padding: 4px 1rem;
+    margin-bottom: 1rem;
+}
+
+:is(div.caution,
+    div.important,
+    div.note,
+    div.tip,
+    div.warning) .title {
+    display: flex;
+    padding: 4px 2px;
+    font-weight: 500;
+    line-height: 1;
+    align-items: center;
+}
+
+:is(div.caution,
+    div.important,
+    div.note,
+    div.tip,
+    div.warning) .title p:first-child::before {
+    margin-right: 0.5rem;
+}
+
+:is(div.caution,
+    div.important,
+    div.note,
+    div.tip,
+    div.warning) p {
+    margin: 0.3rem 0.3rem 0 0;
+}
+
+:is(div.caution,
+    div.important,
+    div.note,
+    div.tip,
+    div.warning)> :last-child {
+    margin-bottom: 0;
+}
+
+div.caution {
+    border-left-color: var(--caution-color);
+}
+
+div.caution .title {
+    color: var(--caution-color);
+}
+
+div.caution .title p:first-child::before {
+    /* ❗ Exclamation Mark */
+    content: "\0021";
+}
+
+div.important {
+    border-left-color: var(--important-color);
+}
+
+div.important .title {
+    color: var(--important-color);
+}
+
+div.important .title p:first-child::before {
+    /* ⚑ Black Flag */
+    content: "\2691";
+}
+
+div.note {
+    border-left-color: var(--note-color);
+}
+
+div.note .title {
+    color: var(--note-color);
+}
+
+div.note .title p:first-child::before {
+    /* ⓘ Circle Small Letter */
+    content: "\24D8";
+}
+
+div.tip {
+    border-left-color: var(--tip-color);
+}
+
+div.tip .title {
+    color: var(--tip-color);
+}
+
+div.tip .title p:first-child::before {
+    /* 💡 Electric Light Bulb */
+    content: "\1F4A1";
+}
+
+div.warning {
+    border-left-color: var(--warning-color);
+}
+
+div.warning .title {
+    color: var(--warning-color);
+}
+
+div.warning .title p:first-child::before {
+    /* ⚠ Warning Sign */
+    content: "\26A0";
+}
