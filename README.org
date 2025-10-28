@@ -60,6 +60,7 @@ The site generator is designed around:
 + [ ] improve the CSS;
 + [ ] better HTML5 support in the output;
 + [ ] validate the quiz descriptions
+
 * Related Works
 
 Although I could use tooling like MyST (aka Jupyter Books) or mdbook,

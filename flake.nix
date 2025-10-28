@@ -6,14 +6,14 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
 
-        jfdm-hakyll = (pkgs.haskellPackages.callPackage ./jfdm-hakyll.nix { });
+        our-place = (pkgs.haskellPackages.callPackage ./our-place.nix { });
       in
         rec {
-          packages.default = jfdm-hakyll;
-          devShells.default = jfdm-hakyll.env;
+          packages.default = our-place;
+          devShells.default = our-place.env;
           devShells.full =
             pkgs.haskellPackages.shellFor {
-              packages = hpkgs: [ jfdm-hakyll ];
+              packages = hpkgs: [ our-place ];
               nativeBuildInputs = [
                 pkgs.cabal-install
                 pkgs.haskell-language-server
