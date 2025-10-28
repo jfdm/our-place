@@ -116,13 +116,20 @@ getTocOptionsWith options = do
   tocField <- getMetadataField identifier "toc"
   return $ getOptions tocField
   where
-    getOptions Nothing = options
-    getOptions (Just _) =
-      options
+    getOptions Nothing
+      = options
+        {
+          writerHighlightStyle = Just kate,
+          writerHTMLMathMethod = MathML
+        }
+    getOptions (Just _)
+      = options
         { writerTableOfContents = True,
           writerTOCDepth = 2,
           writerTemplate = tocTemplate,
-          writerHighlightStyle = Just kate
+          writerHighlightStyle = Just kate,
+          writerHTMLMathMethod = MathML
+
         }
     tocTemplate
       | Right (Right t) <- build templateSource = Just t
