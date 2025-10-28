@@ -24,20 +24,27 @@ setup:
 
 quizzes: setup ${QUIZZES}
 
+autogen/nav.html: toc.yaml setup
+	echo "" \
+	  | pandoc --template templates/nav-template.html \
+		   --metadata-file $< \
+		   --to=html5 \
+		   --from=markdown \
+		   --output=$@
+
 autogen/%.html: quiz/%.yaml setup
 	cabal run --builddir _dist our-quiz -- $< $@
 
 
-build check watch: $(CONTENT) $(QUIZZES)
+build rebuild check watch: autogen/nav.html $(CONTENT) $(QUIZZES)
 	cabal run our-place $@
 
-.PHONY: clean rebuild
-clean rebuld:
+.PHONY: clean
+clean:
 	cabal run our-place $@
 
 .PHONY: clobber
 clobber: clean
 	${RM} -r autogen
-
 
 # -- [ EOF ]

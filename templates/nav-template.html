@@ -1,0 +1,11 @@
+<a class="w3-block w3-button w3-xlarge"
+   href="/index.html">$title$</a>
+
+$for(topics)$
+<a href="$it.href$">$it.name$</a>
+<ul>
+  $for(it.sections)$
+  <li><a href="$it.href$">$it.name$</a></li>
+  $endfor$
+</ul>
+$endfor$

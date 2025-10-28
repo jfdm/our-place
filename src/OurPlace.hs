@@ -30,6 +30,8 @@ main = hakyll $ do
     match "bib/*.bib" $ compile biblioCompiler
     match "csl/*.csl" $ compile cslCompiler
 
+    match "autogen/nav.html" $ compile templateCompiler
+
     match "autogen/*/*.html" $ do
       route $ cleanRoute
       compile $ do
