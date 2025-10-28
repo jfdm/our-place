@@ -82,7 +82,7 @@ pageCompiler = do
   bibFile <- load "bib/biblio.bib"
   cslFile <- load "csl/acm-sig-proceedings.csl"
   getResourceBody
-    >>= readPandocWith' readerOptions
+    >>= readPandocWith readerOptions
     >>= processPandocBiblio cslFile bibFile
     >>= pure . writePandocWith writerOptions
 
@@ -108,15 +108,10 @@ setReaderWith options =
               Ext_tex_math_double_backslash,
               Ext_tex_math_dollars,
               Ext_latex_macros,
-              Ext_raw_attribute,
-              Ext_alerts,
-              Ext_auto_identifiers,
-              Ext_autolink_bare_uris,
-              Ext_footnotes,
-              Ext_pipe_tables,
-              Ext_yaml_metadata_block
+              Ext_raw_attribute
             ]
     }
+
 getTocOptionsWith :: WriterOptions -> Compiler WriterOptions
 getTocOptionsWith options = do
   identifier <- getUnderlying
@@ -146,6 +141,7 @@ getTocOptionsWith options = do
     templateSource = "<aside><nav class='toc'><strong>Contents</strong>\n$toc$\n</nav>\n</aside>\n$body$"
 
 
+{-
 readPandocWith'
     :: ReaderOptions           -- ^ Parser options
     -> Item String             -- ^ String to read
@@ -172,5 +168,5 @@ readPandocWith' ropt item =
             "the type " ++ show t ++ " for: " ++ show (itemIdentifier item)
 
     addExt ro e = ro {readerExtensions = enableExtension e $ readerExtensions ro}
-
+-}
 -- [ EOF ]

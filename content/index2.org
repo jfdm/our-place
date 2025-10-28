@@ -1,0 +1,9 @@
+---
+title: An Introduction
+---
+
+Here is my awesome course...
+
+#+begin_warning
+Hope this works
+#+end_warning
