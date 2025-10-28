@@ -1,0 +1,9 @@
+#+TITLE: README
+
+* Install/Building
+
+The engine to deploy/build the site is:
+
+[[https://github.com/jfdm/our-place]]
+
+Then use the =Makefile= to build the site.

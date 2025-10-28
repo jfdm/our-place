@@ -1,0 +1,52 @@
+/**
+* -- Optional File --
+* Classes used by QuizLib, you can freely override them in your own stylesheets
+*/
+
+.quizlib-question {
+    margin-bottom: 1em;
+}
+
+/* Makes input fields smaller on smaller screens */
+.quizlib-question
+textarea,
+select,
+input {
+    width: 50%;
+}
+
+
+.quizlib-question-title {}
+
+.quizlib-question-answers ul {
+    list-style: none;
+}
+
+.quizlib-question-warning {
+    color: #f44336;
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+}
+
+.quizlib-correct {
+    color: #4caf50;
+}
+
+.quizlib-incorrect {
+    color: #f44336;
+}
+
+#quiz-result {
+  display: none;
+  margin-bottom: 10px;
+
+  text-align: center;
+  color: #fff;
+  padding: 0.5rem 0.9rem;
+  text-decoration: none;
+  line-height: normal;
+}
+
+legend {
+  font-size: 2rem;
+}
