@@ -168,7 +168,7 @@ getTocOptionsWith options = do
       | Right (Right t) <- build templateSource = Just t
       | otherwise = Nothing
     build = runPure . runWithDefaultPartials . compileTemplate ""
-    templateSource = "<aside><nav class='toc'><strong>Contents</strong>\n$toc$\n</nav>\n</aside>\n$body$"
+    templateSource = "<aside class='toc'><nav class='toc'><strong>Contents</strong>\n$toc$\n</nav>\n</aside>\n$body$"
 
 
 {-
