@@ -208,3 +208,19 @@ div.warning > p:first-child::before {
     display: block;
     color: var(--warning-color);
 }
+
+/* https://tony-zorman.com/posts/hakyll-and-bibtex.html */
+/* Align citations to the top. */
+div#refs table tr td {
+    border-width: 0px;
+}
+div#refs td {
+  vertical-align: top;
+}
+
+div.csl-left-margin {
+    display: inline;
+}
+div.csl-right-inline {
+    display: inline;
+}

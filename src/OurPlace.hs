@@ -1,4 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE ImportQualifiedPost #-}
 import           Data.Monoid (mappend)
 
 import Hakyll
@@ -6,6 +9,9 @@ import qualified Data.Text                  as T
 import Text.Pandoc.Highlighting (Style, kate, styleToCss)
 import Text.Pandoc --(compileTemplate, runPure, Pandoc, runWithDefaultPartials)
 import Text.Pandoc.Options
+import Text.Pandoc.Walk (walk, walkM)
+import Text.Pandoc.Builder (Format (..), HasMeta (setMeta), Many, Pandoc (..), nullAttr, simpleTable)
+import Text.Pandoc.Builder qualified as Many (toList, singleton)
 
 import System.FilePath
 
@@ -84,7 +90,31 @@ pageCompiler = do
   getResourceBody
     >>= readPandocWith readerOptions
     >>= processPandocBiblio cslFile bibFile
-    >>= pure . writePandocWith writerOptions
+    >>= pure . fmap (tableiseBib . insertRefHeading)
+    >>= pure . (writePandocWith writerOptions)
+  where
+  -- https://tony-zorman.com/posts/hakyll-and-bibtex.html
+  -- Insert a heading for the citations.
+  insertRefHeading :: Pandoc -> Pandoc
+  insertRefHeading = walk $ concatMap \case
+    d@(Div ("refs", _, _) _) ->
+      [Header 2 ("references", [], []) [Str "References"], d]
+    block -> [block]
+
+  -- | Align all citations in a table.
+  tableiseBib :: Pandoc -> Pandoc
+  tableiseBib = walk \case
+    -- Citations start with a <div id="refs" …>
+    Div a@("refs", _, _) body ->
+      -- No header needed, we just want to fill in the body contents.
+      Div a (Many.toList (simpleTable [] (map citToRow body)))
+    body -> body
+   where
+    citToRow :: Block -> [Many Block]
+    citToRow = map Many.singleton . \case
+      Div attr [Para [s1, s2]] ->
+        [Div attr [Plain [s1]], Plain [Space], Plain [s2]]
+      _ -> error "citToRow: unexpected citation format."
 
 cleanRoute :: Routes
 cleanRoute = customRoute createIndexRoute
