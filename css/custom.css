@@ -79,7 +79,7 @@ div.warning {
     div.tip,
     div.warning) .title {
     display: flex;
-    padding: 4px 2px;
+    padding: 1px 2px;
     font-weight: 500;
     line-height: 1;
     align-items: center;
@@ -122,6 +122,13 @@ div.caution .title p:first-child::before {
     content: "\0021";
 }
 
+div.caution > p:first-child::before {
+    /* ❗ Exclamation Mark */
+    content: "\0021" " " "Caution";
+    display: block;
+    color: var(--caution-color);
+}
+
 div.important {
     border-left-color: var(--important-color);
 }
@@ -135,6 +142,13 @@ div.important .title p:first-child::before {
     content: "\2691";
 }
 
+div.important > p:first-child::before {
+    /* ⚑ Black Flag */
+    content: "\2691" " " "Important";
+    display: block;
+    color: var(--important-color);
+}
+
 div.note {
     border-left-color: var(--note-color);
 }
@@ -143,9 +157,16 @@ div.note .title {
     color: var(--note-color);
 }
 
-div.note .title p:first-child::before {
+div.note > .title p:first-child::before {
     /* ⓘ Circle Small Letter */
     content: "\24D8";
+}
+
+div.note > p:first-child::before {
+    /* ⓘ Circle Small Letter */
+    content: "\24D8" " " "Note";
+    display: block;
+    color: var(--note-color);
 }
 
 div.tip {
@@ -161,6 +182,13 @@ div.tip .title p:first-child::before {
     content: "\1F4A1";
 }
 
+div.tip > p:first-child::before {
+    /* 💡 Electric Light Bulb */
+    content: "\1F4A1" " " "Caution";
+    display: block;
+    color: var(--tip-color);
+}
+
 div.warning {
     border-left-color: var(--warning-color);
 }
@@ -172,4 +200,11 @@ div.warning .title {
 div.warning .title p:first-child::before {
     /* ⚠ Warning Sign */
     content: "\26A0";
+}
+
+div.warning > p:first-child::before {
+    /* ⚠ Warning Sign */
+    content: "\26A0" " " "Warning";
+    display: block;
+    color: var(--warning-color);
 }
